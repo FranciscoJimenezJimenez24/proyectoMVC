@@ -1,6 +1,6 @@
 <?php
 
-include_once "../db.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/proyectoMVC/DB.php";
 
 // MODELO GENÉRICO
 

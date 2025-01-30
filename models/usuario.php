@@ -42,5 +42,22 @@ class Usuario extends Model{
         return $this->db->dataManipulation("DELETE FROM usuario WHERE id = $id");
     }
 
+    public function login($username, $password){
+        $result = $this->db->dataQuery("SELECT id FROM usuario WHERE usuario = '$username' AND password = '$password'");
+        if (count($result) == 1){
+            return $result[0]->id;
+        } else {
+            return -1;
+        }
+    }
+
+    public function register($username, $password, $rpassword){
+        if ($password == $rpassword){
+            return $this->insert($username, $password);
+        } else {
+            return -1;
+        }
+    }
+
 }
 ?>
