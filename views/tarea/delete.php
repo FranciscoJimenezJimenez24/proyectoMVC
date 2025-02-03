@@ -1,8 +1,7 @@
 <?php
-    if (isset($_COOKIE["idTarea"])) {
-        setcookie("idTarea", $_COOKIE["idTarea"], time() + 3600, "/");
-    } else {
+    if (!isset($_COOKIE["idTarea"])) {
         die("Error: idTarea no está definido en las cookies.");
+    } else {
     }
 ?>
 <!DOCTYPE html>

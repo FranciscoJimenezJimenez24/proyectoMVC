@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="text-center mt-3">
-                <a href="index.php?action=mostrarUsuario" class="btn btn-secondary">Back</a>
+                <a href="index.php?action=mostrarTareasUsuario" class="btn btn-secondary">Back</a>
             </div>
         </div>
     </div>

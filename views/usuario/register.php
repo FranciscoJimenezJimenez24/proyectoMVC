@@ -1,12 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['alert'])) {
-    // Mostramos el mensaje en un alert de JavaScript
-    echo "<script>alert('" . $_SESSION['alert'] . "');</script>";
-    // Limpiamos el mensaje después de mostrarlo
-    unset($_SESSION['alert']);
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 

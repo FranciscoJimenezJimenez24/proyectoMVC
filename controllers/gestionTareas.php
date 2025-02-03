@@ -55,30 +55,23 @@ class GestionTareas
 
     public function modificarTarea()
     {
-        $idUsuario = $_COOKIE["idUsuario"];
         $idTarea = $_REQUEST["idTarea"];
         $titulo = $_REQUEST["titulo"];
         $descripcion = $_REQUEST["descripcion"];
         $this->tarea->update($idTarea, $titulo, $descripcion);
-        $tareas = $this->usuarioTarea->getTareasUsuario($idUsuario);
-        $data["tareas"] = [];
-        foreach ($tareas as $tarea) {
-            $data["tareas"][] = $this->tarea->getTarea(intval($tarea->tarea));
-        }
-        View::render("tarea/update", $data);
+        setcookie("idTarea", "", time() - 3600, "/");
+        header("Location: index.php?action=mostrarTareasUsuario");
+        exit();
     }
 
     public function eliminarTarea()
     {
         $idUsuario = $_COOKIE["idUsuario"];
         $idTarea = $_COOKIE["idTarea"];
-        $this->usuarioTarea->delete($idTarea);
-        $tareas = $this->usuarioTarea->getTareasUsuario($idUsuario);
-        $data["tareas"] = [];
-        foreach ($tareas as $tarea) {
-            $data["tareas"][] = $this->tarea->getTarea(intval($tarea->tarea));
-        }
-        View::render("tarea/all", $data);
+        $this->usuarioTarea->deleteUsuarioTarea($idUsuario, $idTarea);
+        setcookie("idTarea", "", time() - 3600, "/");
+        header("Location: index.php?action=mostrarTareasUsuario");
+        exit();
     }
 
 
@@ -87,7 +80,6 @@ class GestionTareas
         $usuario = $_REQUEST["user"];
         $password = $_REQUEST["password"];
         $idUsuario = intval($this->usuario->login($usuario, $password));
-
         if ($idUsuario > 0) {
             setcookie("idUsuario", $idUsuario, time() + 3600, "/");
             header("Location: index.php?action=mostrarTareasUsuario");
@@ -112,7 +104,8 @@ class GestionTareas
     public function cancelarAccion()
     {
         setcookie("idTarea", "", time() - 3600, "/");
-        View::render("tarea/all");
+        header("Location: index.php?action=mostrarTareasUsuario");
+        exit;
     }
 
     public function sendToLogin()
@@ -130,22 +123,55 @@ class GestionTareas
         View::render("tarea/create");
     }
 
-    public function sendToUpdateTarea($idTarea)
-    {
-        setcookie("idTarea", $idTarea);
-        View::render("tarea/update");
-    }
-
-    public function sendToDeleteTarea()
+    public function sendToUpdateTarea()
     {
         if (isset($_GET['idTarea'])) {
-            $idTarea = $_GET['idTarea'];
-            setcookie("idTarea", $idTarea, time() + 3600, "/");
-            View::render("tarea/delete");
+            $idTarea = intval($_GET['idTarea']);
+            $tarea = $this->tarea->getTarea($idTarea);
+
+            if ($tarea) {
+                $data["tarea"] = $tarea;
+                View::render("tarea/update", $data);
+            } else {
+                echo "Error: No se ha encontrado la tarea.";
+                die();
+            }
         } else {
             echo "Error: no se ha especificado el id de la tarea.";
             die();
         }
+    }
+
+
+
+    public function sendToDeleteTarea()
+    {
+        if (isset($_GET['idTarea'])) {
+            $idTarea = intval($_GET['idTarea']);
+            setcookie("idTarea", $idTarea, time() + 3600, "/");
+            header("Location: index.php?action=deleteTareaForm");
+            exit;
+        } else {
+            echo "Error: no se ha especificado el id de la tarea.";
+            die();
+        }
+    }
+
+    public function deleteTareaForm()
+    {
+        if (!isset($_COOKIE["idTarea"])) {
+            die("Error: idTarea no está definido en las cookies.");
+        }
+
+        View::render("tarea/delete");
+    }
+
+    public function updateTareaForm()
+    {
+        if (!isset($_COOKIE["idTarea"])) {
+            die("Error: idTarea no está definido en las cookies.");
+        }
+        View::render("tarea/update");
     }
 
 }
