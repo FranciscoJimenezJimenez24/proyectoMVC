@@ -26,21 +26,17 @@ if (isset($data['tarea'])) {
                     Update Task
                 </div>
                 <div class="card-body">
-                    <!-- Formulario para actualizar la tarea -->
                     <form action="index.php?action=modificarTarea" method="post">
                         <input type="hidden" name="idUsuario" value="<?php echo $_COOKIE['idUsuario'] ?>">
 
-                        <!-- Asegúrate de acceder correctamente a la propiedad id de la tarea -->
                         <input type="hidden" name="idTarea" value="<?php echo isset($tarea) ? $tarea->id : ''; ?>">
 
-                        <!-- Campo para el título -->
                         <div class="form-group">
                             <label for="titulo">Title</label>
                             <input type="text" class="form-control" id="titulo" name="titulo"
                                 value="<?php echo isset($tarea) ? $tarea->titulo : ''; ?>" required>
                         </div>
 
-                        <!-- Campo para la descripción -->
                         <div class="form-group">
                             <label for="descripcion">Description</label>
                             <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required>

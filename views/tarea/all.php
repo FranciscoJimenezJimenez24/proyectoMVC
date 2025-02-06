@@ -1,6 +1,9 @@
 <?php
 $listaTareas = $data['tareas'];
 
+// Cargar Bootstrap
+echo "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet'>";
+
 if (count($listaTareas) == 0) {
   echo "<div class='alert alert-warning' role='alert'>No hay tareas disponibles.</div>";
 } else {
@@ -34,4 +37,11 @@ if (count($listaTareas) == 0) {
 echo "<div class='text-center mt-3'>";
 echo "<a href='index.php?action=sendToCreateTarea' class='btn btn-success'>Nuevo</a>";
 echo "</div>";
+
+// Colocamos el botón de Cerrar sesión debajo de la tabla
+echo "<div class='text-center mt-3'>";
+echo "<a class='btn btn-warning' href='index.php?action=cerrarSesion'>Cerrar sesión</a>";
+echo "</div>";
+
+echo "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js'></script>";
 ?>
